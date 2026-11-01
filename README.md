@@ -105,7 +105,7 @@ mode passes cross-shell and terminal tests. The normal Solace bindings stay inta
 
 No disks, encryption settings, boot files, firmware keys, networking profiles,
 firewall rules or SSH services are configured here. A security tool package is not
-automatically a hardened workstation. See `profiles/hardware/surface-laptop-6`.
+automatically a hardened workstation. See `profiles/hardware/surface`.
 Live-media Secure Boot, target signed UKIs, kernel module enforcement/signing and
 LUKS2 recovery require a separately reviewed and tested deployment procedure.
 

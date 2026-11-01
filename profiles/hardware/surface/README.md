@@ -1,4 +1,4 @@
-# Surface Laptop 6 deployment gate
+# Surface hardware deployment gate
 
 No kernel, ACPI parameter, disk or firmware policy is applied by this profile.
 Test current stock Arch keyboard, touchpad, touch, graphics, audio, camera, Wi-Fi,
