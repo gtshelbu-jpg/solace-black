@@ -113,10 +113,11 @@ automatically a hardened workstation. See `profiles/hardware/surface`.
 Live-media Secure Boot, target signed UKIs, kernel module enforcement/signing and
 LUKS2 recovery require a separately reviewed and tested deployment procedure.
 
-Online package availability and AUR/source revisions change. Source locking and
-build manifests are implemented; bit-for-bit reproducible package snapshots are
-not. No full ISO, VM installation, keyring cryptographic test, optional package
-build, Surface deployment, or physical suspend/hotplug validation has been claimed.
+Online package availability and AUR/source revisions change. Source locks and
+build manifests do not pin every binary dependency or guarantee bit-for-bit image
+reproducibility. Verify actual package signatures and test the exact generated
+image; unit tests and successful builds do not establish installation, hardware,
+suspend or hotplug compatibility. See the validation guide for release gates.
 
 ```bash
 python3 -m unittest discover -s tests -v
