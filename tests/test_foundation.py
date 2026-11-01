@@ -61,6 +61,10 @@ class FoundationTests(unittest.TestCase):
         self.assertTrue((dest / "airootfs/usr/share/solace/variant-stage-target").is_file())
         self.assertTrue((dest / "airootfs/usr/share/solace/build-manifest.json").is_file())
         self.assertIn("--populate archlinux blackarch", (dest / "airootfs/etc/systemd/system/pacman-init.service").read_text())
+        definition = (dest / "profiledef.sh").read_text()
+        self.assertIn('iso_name="solace-black"', definition)
+        self.assertIn('iso_publisher="Solace"', definition)
+        self.assertIn('iso_application="solace-black installation environment"', definition)
         self.assertEqual(before, (self.source / "archiso/profile/pacman.conf").read_bytes())
 
     def test_standard_variant_does_not_get_black_repository_or_hook(self):
@@ -70,6 +74,7 @@ class FoundationTests(unittest.TestCase):
         self.assertNotIn("blackarch-keyring", manifest["packages"])
         self.assertNotIn("[blackarch]", (dest / "pacman.conf").read_text())
         self.assertFalse((dest / "airootfs/usr/share/solace/variant-stage-target").exists())
+        self.assertIn('iso_name="solace"', (dest / "profiledef.sh").read_text())
 
     def test_existing_profile_output_is_preserved(self):
         dest = self.root / "existing"

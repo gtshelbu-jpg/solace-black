@@ -123,6 +123,7 @@ def compose(source, dest, variant, development=False):
         text, count = re.subn(rf'^{key}=.*$', f'{key}="{value}"', text, flags=re.M)
         if count != 1:
             raise ValueError(f"Unexpected upstream profile: {key}")
+    definition.write_text(text)
     if variant == "solace-black":
         shutil.copytree(ROOT / "overlays/archiso/airootfs", dest / "airootfs", dirs_exist_ok=True, symlinks=True)
         packages = package_lines(dest / "packages.x86_64")
