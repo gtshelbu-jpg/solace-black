@@ -50,7 +50,12 @@ Calamares requirement. No shared profile is edited in place.
 2. **Live:** separate Pacman config/mirror list plus the verified blackarch-keyring
    package. The shared live `pacman-init` service populates both keyrings.
 3. **Target:** after base installation, Black explicitly runs the pinned official
-   bootstrap on the target before selecting/installing native tools.
+    bootstrap on the target before selecting/installing native tools.
+
+Target repository setup runs before the shared desktop package stage. If
+archinstall inherited Black's canonical repository Include but omitted its mirror
+list, the bootstrap restores that missing file before invoking Pacman. Existing
+custom mirror files and signature policy are not overwritten by that repair.
 
 `bootstrap/blackarch-repo.sh` is preview-only without `--apply`. Applying requires
 root, downloads into a root-owned temporary directory, checks the recorded SHA256,

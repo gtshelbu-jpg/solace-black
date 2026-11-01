@@ -59,8 +59,10 @@ step() {
   if (( ! DRY )); then "$@"; fi
 }
 if (( ! DESKTOP_ONLY )); then
-  step bash "$BASE/install.sh" "${BASE_ARGS[@]}"
+  # archinstall may inherit the live repository stanza without its Include file.
+  # Establish repository configuration/trust before the base invokes Pacman.
   step sudo bash "$ROOT/bootstrap/blackarch-repo.sh" --apply
+  step bash "$BASE/install.sh" "${BASE_ARGS[@]}"
   mapfile -t packages < <(python3 - "$ROOT" "${GROUPS_SELECTED[@]}" <<'PY'
 import sys
 from pathlib import Path

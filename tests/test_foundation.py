@@ -142,6 +142,7 @@ class FoundationTests(unittest.TestCase):
         p = subprocess.run(["bash", str(ROOT / "install.sh"), "--dry-run", "--with", "web"], env=env, capture_output=True, text=True)
         self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
         self.assertIn("blackarch-repo.sh", p.stderr)
+        self.assertLess(p.stderr.index("blackarch-repo.sh"), p.stderr.index("/opt/solace/install.sh"))
         self.assertIn("ffuf", p.stderr)
         self.assertFalse(any(home.iterdir()))
 
@@ -151,6 +152,21 @@ class FoundationTests(unittest.TestCase):
         self.assertIn("Preview", p.stdout)
         checksum = (ROOT / "bootstrap/strap.sha256").read_text().strip()
         self.assertRegex(checksum, r"^[a-f0-9]{64}$")
+
+    @unittest.skipIf(os.geteuid() == 0, "Desktop apply intentionally refuses root")
+    def test_failed_repository_setup_stops_before_base_package_installation(self):
+        marker = self.root / "base-ran"
+        (self.source / "install.sh").write_text(f'#!/bin/bash\ntouch "{marker}"\n')
+        stubs = self.root / "bin"
+        stubs.mkdir()
+        sudo = stubs / "sudo"
+        sudo.write_text("#!/bin/bash\nexit 19\n")
+        sudo.chmod(0o755)
+        env = {**os.environ, "PATH": str(stubs) + ":" + os.environ["PATH"]}
+        result = subprocess.run(["bash", str(ROOT / "install.sh"), "--apply", "--base-path", str(self.source)],
+                                env=env, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 19, result.stderr)
+        self.assertFalse(marker.exists())
 
     def test_local_fetch_resolves_source_before_git_changes_directory(self):
         pinned = json.loads((ROOT / "upstream.lock.json").read_text())

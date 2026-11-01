@@ -15,6 +15,8 @@ curl --proto '=https' --tlsv1.2 --fail --location --output "$work/strap.sh" http
 expected="$(tr -d '\n' <"$ROOT/bootstrap/strap.sha256")"
 [[ $expected =~ ^[a-f0-9]{64}$ ]] || { echo 'Invalid bootstrap checksum' >&2; exit 1; }
 printf '%s  %s\n' "$expected" "$work/strap.sh" | sha256sum --check --status
+source "$ROOT/bootstrap/repository-config.sh"
+blackarch_repair_inherited_mirrorlist /etc/pacman.conf /etc/pacman.d/blackarch-mirrorlist
 # The reviewed upstream script verifies the keyring package's signature against
 # its pinned signer fingerprints. Never insert SigLevel=Never/TrustAll here.
 bash "$work/strap.sh"
