@@ -167,6 +167,7 @@ def main():
     iso.add_argument("--prepare-only", action="store_true", help="Write staged files only; no root, package operations or mkarchiso")
     iso.add_argument("--profile-output", type=Path)
     iso.add_argument("--gpg-dir", type=Path, help="Dedicated pre-populated build keyring trusting Arch and BlackArch")
+    iso.add_argument("--local-repo", type=Path, help="Explicit signed local package repository for an actual build")
     args = parser.parse_args()
     if args.command == "fetch":
         print(fetch(args.source)); return
@@ -194,6 +195,8 @@ def main():
            "--out", ROOT / "out" / args.variant / work.name]
     if args.gpg_dir:
         cmd += ["--gpg-dir", args.gpg_dir.resolve()]
+    if args.local_repo:
+        cmd += ["--local-repo", args.local_repo.resolve()]
     if args.variant == "solace-black":
         cmd += ["--extra-source", "solace-black", ROOT]
     if args.development:

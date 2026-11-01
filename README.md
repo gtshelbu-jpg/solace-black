@@ -27,7 +27,7 @@ Build only in a disposable Arch environment with the required package artifacts
 and signing trust. See [build and release validation](docs/BUILD_VALIDATION.md).
 
 ```bash
-bash scripts/build-iso.sh solace
+bash scripts/build-iso.sh solace --gpg-dir /path/to/dedicated/build-keyring --local-repo /path/to/signed-local-repository
 bash scripts/build-iso.sh solace-black --gpg-dir /path/to/dedicated/build-keyring
 ```
 
@@ -68,6 +68,9 @@ repository change while composing a profile. Build keys are not embedded in ISOs
 Local packages must be signed and their signing keys trusted by the dedicated
 build keyring; the upstream builder verifies through Pacman. This foundation does
 not yet provide a binary Assist repository or a key-distribution service.
+Pass their directory explicitly with `--local-repo`; profile preparation does not
+import packages or trust keys. Standard Solace requires a signed Calamares package
+in that repository. Do not put package artifacts in the pinned source checkout.
 
 ## Target desktop installation
 

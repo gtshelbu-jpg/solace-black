@@ -77,6 +77,21 @@ class FoundationTests(unittest.TestCase):
         with self.assertRaises(ValueError): project.compose(self.source, dest, "solace-black", True)
         self.assertEqual((dest / "mine").read_text(), "user data")
 
+    def test_explicit_signed_local_repository_is_forwarded_to_shared_builder(self):
+        repo = self.root / "signed-repository"
+        keyring = self.root / "keyring"
+        argv = ["project.py", "iso", "solace", "--upstream", str(self.source),
+                "--profile-output", str(self.root / "profile-output"),
+                "--gpg-dir", str(keyring), "--local-repo", str(repo)]
+        with patch.object(project, "ROOT", self.root), patch.object(project.sys, "argv", argv), \
+             patch.object(project, "compose", return_value={}), patch.object(project, "git_value", return_value="1"), \
+             patch.object(project, "run") as run:
+            project.main()
+        command = list(run.call_args.args)
+        self.assertEqual(command[command.index("--local-repo") + 1], repo.resolve())
+        self.assertEqual(command[command.index("--gpg-dir") + 1], keyring.resolve())
+        self.assertNotIn("--allow-dirty-sources", command)
+
     def test_unpublished_interface_and_unpinned_releases_fail_closed(self):
         with self.assertRaises(ValueError): project.validate_upstream(self.source)
         (self.source / "archiso/interface.json").unlink()
