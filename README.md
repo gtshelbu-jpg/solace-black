@@ -1,0 +1,123 @@
+# Solace Black — development foundation
+
+An independently maintained overlay on a pinned Solace desktop, not a full fork.
+Solace owns the shared desktop/installer/Archiso engine. Black owns repository
+integration, optional native tool selections, a small desktop include and optional
+palette, and explicit security/hardware deployment policy. Assist is a separate
+offline CLI/TUI MVP, not a boot dependency. Its shell and Elephant adapter remain
+later milestones; no unfinished launcher or assisted-shell shortcut is enabled.
+
+## Current status and source lock
+
+This is **not a released or hardware-validated ISO**. The initial lock records the
+published interface-1 Solace revision `b30f817`. Modified or unpinned dependency
+trees are rejected by release composition.
+Development preparation is explicit and labels its build manifest accordingly.
+
+```bash
+# Explicit network fetch, or use --source /path/to/local/Solace to fetch the pin locally.
+bash scripts/fetch-upstream.sh
+
+# Current local development: no sudo, package operations, or mkarchiso.
+bash scripts/build-iso.sh solace-black --upstream ../Solace --development --prepare-only
+bash scripts/build-iso.sh solace --upstream ../Solace --development --prepare-only
+```
+
+After reviewing/publishing/pinning the upstream interface, release commands are:
+
+```bash
+bash scripts/build-iso.sh solace
+bash scripts/build-iso.sh solace-black --gpg-dir /path/to/dedicated/build-keyring
+```
+
+The build machine needs Arch, Archiso/mkarchiso, rsync, Git and Python 3.11+.
+Neither this project nor its tests install these prerequisites. Each flavor has
+separate `.work/mkarchiso` and `out` directories. Archiso emits versioned ISO names;
+there is no claim of a new image being built merely because a profile was prepared.
+Generated profiles, dependency clones and image outputs are ignored by Git.
+
+Black removes the experimental Calamares/Cage/KCrash dependency from its live
+package list and retains the shared archinstall path. Normal Solace composition
+retains its original package selection, including its separately prepared signed
+Calamares requirement. No shared profile is edited in place.
+
+## Signing and repository contexts
+
+1. **Build:** dedicated keyring already trusting Arch and BlackArch; strict package
+   verification. Provision this trust in a disposable build VM/container using the
+   reviewed official bootstrap, not by modifying the daily-driver host keyring.
+2. **Live:** separate Pacman config/mirror list plus the verified blackarch-keyring
+   package. The shared live `pacman-init` service populates both keyrings.
+3. **Target:** after base installation, Black explicitly runs the pinned official
+   bootstrap on the target before selecting/installing native tools.
+
+`bootstrap/blackarch-repo.sh` is preview-only without `--apply`. Applying requires
+root, downloads into a root-owned temporary directory, checks the recorded SHA256,
+then runs the reviewed upstream bootstrap (which verifies the keyring signature).
+A changed download fails closed. Review the source and fingerprint changes before
+updating that pin; a checksum from an untrusted source is not independent trust.
+Reference: https://blackarch.org/downloads.html#install-repo
+
+Standard Arch repositories retain precedence. The Black profile also enables
+multilib for the live environment; installed-system multilib remains an explicit
+base-install/admin choice. No SigLevel=Never/TrustAll or blanket --overwrite is used.
+There is no automatic host pacman -Sy, package installation, trust enrollment or
+repository change while composing a profile. Build keys are not embedded in ISOs.
+
+Local packages must be signed and their signing keys trusted by the dedicated
+build keyring; the upstream builder verifies through Pacman. This foundation does
+not yet provide a binary Assist repository or a key-distribution service.
+
+## Target desktop installation
+
+The ISO's generic target-staging hook copies the Black source beside Solace and
+selects the Black first-login entry point. It refuses existing add-on sources or
+bootstrap selections rather than overwriting them. Disk selection/formatting stays
+inside the explicitly confirmed archinstall workflow.
+
+```bash
+# Always inspect the plan first. These examples are NOT instructions to rerun on
+# the working source laptop.
+bash install.sh --dry-run --base-path /opt/solace
+bash install.sh --apply --lid-policy docked --no-tablet
+# Optional additional packages:
+bash install.sh --apply --with web --with wireless --lid-policy awake --no-tablet
+# Only after a signed native Assist package is available in a trusted repository:
+bash install.sh --dry-run --with assist --lid-policy docked --no-tablet
+# Add only desktop files to a prepared, compatible desktop:
+bash install.sh --dry-run --desktop-only
+```
+
+The shared installer handles lid selection, keyring/PAM preservation, and user
+preferences. Black defaults to preserving the current theme. `--theme black` is an
+explicit opt-in: materialize the optional palette using shared theme assets, then
+select it through Solace. It is experimental until visually tested on a disposable
+desktop; no new wallpaper assets are duplicated in this repository.
+
+Black tracks its owned include's hash. If edited locally, it is preserved and the
+installer requests manual review. Missing shared derivative/user include support
+also fails rather than rewriting a customized Hyprland configuration.
+SUPER+Enter is unchanged. The approved security-launcher shortcut is reserved for
+the launcher milestone; SUPER+ALT+Enter is not changed until real assisted-shell
+mode passes cross-shell and terminal tests. The normal Solace bindings stay intact.
+
+## Security boundaries / remaining work
+
+No disks, encryption settings, boot files, firmware keys, networking profiles,
+firewall rules or SSH services are configured here. A security tool package is not
+automatically a hardened workstation. See `profiles/hardware/surface-laptop-6`.
+Live-media Secure Boot, target signed UKIs, kernel module enforcement/signing and
+LUKS2 recovery require a separately reviewed and tested deployment procedure.
+
+Online package availability and AUR/source revisions change. Source locking and
+build manifests are implemented; bit-for-bit reproducible package snapshots are
+not. No full ISO, VM installation, keyring cryptographic test, optional package
+build, Surface deployment, or physical suspend/hotplug validation has been claimed.
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+Tests use temporary fixtures and mocked privileged commands. No new GitHub remote,
+commit or public release is created automatically. Settle root/source/asset license
+provenance before publishing releases; do not invent licenses for inherited files.

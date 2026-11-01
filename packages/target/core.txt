@@ -1,0 +1,5 @@
+# Minimal native toolkit; base Arch repositories retain precedence.
+nmap
+tcpdump
+wireshark-cli
+ripgrep

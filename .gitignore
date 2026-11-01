@@ -1,0 +1,12 @@
+/.deps/
+/.work/
+/out/
+/.venv/
+__pycache__/
+*.pyc
+*.iso
+*.pkg.tar.*
+*.key
+*.pem
+*.keyring
+.env

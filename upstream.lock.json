@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "solace": {
+    "repository": "https://github.com/gtshelbu-jpg/Solace.git",
+    "commit": "b30f8172aa542b49df66c39ddf348891547744e5",
+    "interface": 1
+  },
+  "status": "interface-1 foundation published upstream; ISO and hardware validation still required"
+}

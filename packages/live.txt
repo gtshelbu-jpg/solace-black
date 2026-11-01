@@ -1,0 +1,6 @@
+# Small installation/rescue environment, not the entire tool collection.
+blackarch-keyring
+python
+curl
+gnupg
+git

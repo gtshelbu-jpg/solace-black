@@ -1,0 +1,4 @@
+# Optional; package availability/conflicts must be checked against current repos.
+ffuf
+gobuster
+sqlmap

@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+target="${1:?Target root required}"
+user="${2:?Target login user required}"
+(( EUID == 0 )) || { echo 'Target staging requires root.' >&2; exit 1; }
+mountpoint -q "$target" && [[ -d "$target/etc" ]] || { echo 'Target must be an explicitly mounted installation.' >&2; exit 1; }
+[[ $user =~ ^[a-z_][a-z0-9_-]*$ ]] || { echo 'Invalid target user' >&2; exit 1; }
+[[ -f /opt/solace-black/install.sh ]] || { echo 'Missing embedded Black source' >&2; exit 1; }
+[[ ! -e "$target/opt/solace-black" ]] || { echo 'Existing Black source needs manual review; not overwriting it.' >&2; exit 1; }
+[[ ! -e "$target/etc/solace/bootstrap" ]] || { echo 'An existing bootstrap selection must be reviewed first.' >&2; exit 1; }
+mkdir -p "$target/opt/solace-black" "$target/etc/solace"
+cp -a /opt/solace-black/. "$target/opt/solace-black/"
+chroot "$target" chown -R "$user:$user" /opt/solace-black
+printf '/opt/solace-black/install.sh\n' >"$target/etc/solace/bootstrap"

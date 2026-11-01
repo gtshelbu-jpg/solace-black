@@ -1,0 +1,3 @@
+# Optional, only after a signed native Assist package/repository is available.
+solace-assist
+python-textual

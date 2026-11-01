@@ -1,0 +1,3 @@
+aircrack-ng
+iw
+wireless-regdb
