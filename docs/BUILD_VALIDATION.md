@@ -1,25 +1,37 @@
-# Build validation status
+# Build and release validation
 
-- Shared interface 1 is published in Solace commit
-  `b30f8172aa542b49df66c39ddf348891547744e5` and recorded in `upstream.lock.json`.
-- Fetching that exact commit from the local Git repository succeeded; the staged
-  dependency is a detached, clean checkout, not a copy of the running desktop.
-- Both profile variants prepare without sudo. Tests check separation of build,
-  live and target repository setup, signature policy, provenance, user-edited
-  overlays, source pinning and write-free installation previews.
-- The original checked-in Solace profile is unchanged by composition. Normal
-  Solace retains its original Calamares package selection; Black uses archinstall.
+Profile preparation is not an ISO build or a boot test. Do not use a prepared
+profile or passing unit tests as evidence that installation media is ready.
 
-**No actual ISO has been built or booted.** This workstation lacks mkarchiso,
-rsync and QEMU. An isolated Arch builder/VM and dedicated populated build keyring
-are required. Do not install privileged build tooling onto the daily-driver or
-launch a privileged container implicitly to make a validation claim.
+## Build environment
 
-Next build gates: resolve/verify selected package artifacts and signing trust;
-build both variants in the isolated environment; boot in a disposable UEFI VM;
-validate target staging/first-login and rerun preservation. Actual cryptographic
-verification is done by Pacman/GPG, not by mocked signature-presence tests.
+Use a disposable Arch Linux VM with Archiso, rsync, Git and Python 3.11+.
+Provision a dedicated Pacman keyring with reviewed Arch and BlackArch trust;
+keep build-time, live-environment and installed-target repository setup separate.
+Never weaken signature verification to resolve a missing package or signing key.
 
-Secure Boot live media, LUKS2 layout/unlock/recovery, signed UKI updates, module
-policy and Surface hardware remain separately reviewed deployment milestones.
-No disk, key enrollment, networking profile or live installation was changed.
+The source revision and interface are specified in `upstream.lock.json`.
+Release composition requires clean, pinned source trees. Standard Solace retains
+its signed local Calamares dependency; Black uses the shared archinstall path.
+
+## Required checks
+
+1. Run `python3 -m unittest discover -s tests -v`.
+2. Prepare both variants and inspect their package/configuration manifests.
+3. Resolve all package artifacts and validate signatures using Pacman/GPG.
+4. Build each variant in separate work/output directories.
+5. Boot each image in a disposable UEFI VM; check networking, repository trust,
+   installer entry points and embedded source provenance.
+6. Test installation only to a disposable virtual disk. Verify target staging,
+   first-login setup, lid-policy selection and preservation across reruns.
+7. Generate checksums and publish precise compatibility limitations with images.
+
+Unit tests use fixtures and mocked privileged commands. They do not validate
+cryptographic trust, tool binaries, bootability or hardware compatibility.
+
+## Boot and hardware limitations
+
+No released, hardware-validated ISO is provided by this source repository.
+Live-media Secure Boot, LUKS2 recovery, signed UKI updates and kernel-module
+policy require separate validation. A successful VM boot does not establish
+physical hardware compatibility or authorize firmware/disk changes.

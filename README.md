@@ -1,4 +1,4 @@
-# Solace Black — development foundation
+# Solace Black
 
 An independently maintained overlay on a pinned Solace desktop, not a full fork.
 Solace owns the shared desktop/installer/Archiso engine. Black owns repository
@@ -7,10 +7,10 @@ palette, and explicit security/hardware deployment policy. Assist is a separate
 offline CLI/TUI MVP, not a boot dependency. Its shell and Elephant adapter remain
 later milestones; no unfinished launcher or assisted-shell shortcut is enabled.
 
-## Current status and source lock
+## Source lock and build requirements
 
-This is **not a released or hardware-validated ISO**. The initial lock records the
-published interface-1 Solace revision `b30f817`. Modified or unpinned dependency
+This is **not a released or hardware-validated ISO**. `upstream.lock.json` records
+the exact interface-1 Solace revision. Modified or unpinned dependency
 trees are rejected by release composition.
 Development preparation is explicit and labels its build manifest accordingly.
 
@@ -18,12 +18,13 @@ Development preparation is explicit and labels its build manifest accordingly.
 # Explicit network fetch, or use --source /path/to/local/Solace to fetch the pin locally.
 bash scripts/fetch-upstream.sh
 
-# Current local development: no sudo, package operations, or mkarchiso.
-bash scripts/build-iso.sh solace-black --upstream ../Solace --development --prepare-only
-bash scripts/build-iso.sh solace --upstream ../Solace --development --prepare-only
+# Prepare pinned profiles without sudo, package operations, or mkarchiso.
+bash scripts/build-iso.sh solace-black --prepare-only
+bash scripts/build-iso.sh solace --prepare-only
 ```
 
-After reviewing/publishing/pinning the upstream interface, release commands are:
+Build only in a disposable Arch environment with the required package artifacts
+and signing trust. See [build and release validation](docs/BUILD_VALIDATION.md).
 
 ```bash
 bash scripts/build-iso.sh solace
@@ -101,7 +102,7 @@ SUPER+Enter is unchanged. The approved security-launcher shortcut is reserved fo
 the launcher milestone; SUPER+ALT+Enter is not changed until real assisted-shell
 mode passes cross-shell and terminal tests. The normal Solace bindings stay intact.
 
-## Security boundaries / remaining work
+## Security boundaries
 
 No disks, encryption settings, boot files, firmware keys, networking profiles,
 firewall rules or SSH services are configured here. A security tool package is not
