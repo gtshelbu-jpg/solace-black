@@ -1,0 +1,13 @@
+Solace Black's original overlay code and original documentation are MIT licensed.
+
+Solace is consumed as pinned upstream source, not relicensed by this repository.
+Its inherited code, wallpapers, fonts, themes and other assets retain their own
+notices and licenses. In particular, the inherited Solace runtime snapshot carries
+the MIT copyright notice of David Heinemeier Hansson at
+Thinkpad/local/share/solace/LICENSE in the upstream source. Preserve that notice
+and all other relevant asset notices when assembling installation media.
+
+Arch Linux, BlackArch, their packages, the official BlackArch bootstrap and any
+Surface support components retain their own licenses. Package keyrings and
+signatures establish package trust, not new licensing rights. Dependency source,
+manuals or binary packages are not relicensed by Solace Black's MIT license.

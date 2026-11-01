@@ -118,6 +118,7 @@ build, Surface deployment, or physical suspend/hotplug validation has been claim
 python3 -m unittest discover -s tests -v
 ```
 
-Tests use temporary fixtures and mocked privileged commands. No new GitHub remote,
-commit or public release is created automatically. Settle root/source/asset license
-provenance before publishing releases; do not invent licenses for inherited files.
+Tests use temporary fixtures and mocked privileged commands. No binary public
+release is created automatically. Original overlay code and documentation are MIT
+licensed; see LICENSE and NOTICE. Upstream code/assets and packages retain their
+own licenses and notices.
