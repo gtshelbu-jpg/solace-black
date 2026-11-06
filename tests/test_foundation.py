@@ -50,7 +50,11 @@ class FoundationTests(unittest.TestCase):
         self.assertIn("Server = https://blackarch.org", build)
         self.assertIn("Include = /etc/pacman.d/blackarch-mirrorlist", live)
         self.assertNotIn("TrustAll", build + live)
-        self.assertNotIn("LocalFileSigLevel = Optional", build + live)
+        self.assertIn("LocalFileSigLevel = Required TrustedOnly", build)
+        self.assertNotIn("LocalFileSigLevel = Optional", build)
+        self.assertIn("LocalFileSigLevel = Optional TrustedOnly", live)
+        for config in (build, live):
+            self.assertIn("SigLevel = Required DatabaseOptional TrustedOnly", config)
         self.assertIn("[core]", live)
         self.assertIn("[extra]", live)
         self.assertIn("[multilib]", live)

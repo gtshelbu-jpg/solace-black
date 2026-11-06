@@ -50,7 +50,15 @@ Calamares requirement. No shared profile is edited in place.
 2. **Live:** separate Pacman config/mirror list plus the verified blackarch-keyring
    package. The shared live `pacman-init` service populates both keyrings.
 3. **Target:** after base installation, Black explicitly runs the pinned official
-    bootstrap on the target before selecting/installing native tools.
+     bootstrap on the target before selecting/installing native tools.
+
+Repository packages require trusted signatures in all three contexts. Build-time
+local packages also require trusted signatures. Live/installed systems instead use
+`LocalFileSigLevel = Optional TrustedOnly`, matching normal Arch AUR workflows:
+unsigned local builds are allowed, but present signatures must validate against a
+trusted key. The live configuration may be inherited by archinstall; it must not
+carry the build-only local-signature requirement into the installed system.
+Existing installations are not changed automatically by rebuilding an ISO.
 
 Target repository setup runs before the shared desktop package stage. If
 archinstall inherited Black's canonical repository Include but omitted its mirror

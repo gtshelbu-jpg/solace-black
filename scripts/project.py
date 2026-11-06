@@ -94,14 +94,16 @@ def own_input_digest():
 
 
 def blackarch_conf(base, live=False):
-    # No trust relaxation. Build-time and live configuration are separate outputs.
+    # Build artifacts require signatures. The live configuration can be inherited
+    # by archinstall targets, which must support normal unsigned local AUR builds.
     lines = []
     for line in base.splitlines():
         if re.match(r"\s*(SigLevel|LocalFileSigLevel|GPGDir)\s*=", line):
             continue
         lines.append(line)
         if line.strip() == "[options]":
-            lines += ["SigLevel = Required DatabaseOptional TrustedOnly", "LocalFileSigLevel = Required TrustedOnly"]
+            local_policy = "Optional TrustedOnly" if live else "Required TrustedOnly"
+            lines += ["SigLevel = Required DatabaseOptional TrustedOnly", f"LocalFileSigLevel = {local_policy}"]
     if not any(line.strip() == "[multilib]" for line in lines):
         lines += ["", "[multilib]", "Include = /etc/pacman.d/mirrorlist"]
     lines += ["", "[blackarch]", "SigLevel = Required DatabaseOptional TrustedOnly"]
