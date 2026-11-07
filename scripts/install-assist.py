@@ -14,7 +14,7 @@ import tempfile
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-DEPENDENCIES = ["base-devel", "python-build", "python-installer", "python-setuptools", "python-wheel", "python-textual"]
+DEPENDENCIES = ["base-devel", "python-build", "python-installer", "python-setuptools", "python-wheel", "python-textual>=8.2.8"]
 
 
 def git(source, *args):

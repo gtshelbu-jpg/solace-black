@@ -136,6 +136,8 @@ task, for example `sbtools search enumerate smb`. Run `sbtools sync` (or Ctrl+R 
 the explorer) to explicitly read local Pacman caches and installed-file metadata;
 this does not download data or refresh Pacman's databases. Browsing never runs a
 security tool. There is no assisted shell or generated-command execution yet.
+The explorer follows Solace's active palette and updates when the system theme
+changes, without requiring a separate Assist theme setting.
 
 `--with assist` still expects a package in an explicitly trusted repository.
 `--assist-source-build` is a separate opt-in for installations without that binary

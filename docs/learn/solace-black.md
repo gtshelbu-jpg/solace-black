@@ -72,6 +72,8 @@ package databases. Installed status is a snapshot, not a live guarantee.
 **Enter** focuses results/opens details, **Tab** moves focus, **F** toggles a
 favorite when results are focused, **Esc** returns and **Ctrl+Q** quits.
 Browsing and selection never execute the described security tools.
+The explorer follows the active Solace palette, including changes while it is
+open. After upgrading an older Assist version, reopen it once to load this support.
 
 Assist remains independently usable and optional. The Black installer can use a
 trusted native package (`--with assist`) or an explicit pinned local source build

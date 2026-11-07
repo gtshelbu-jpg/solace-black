@@ -88,7 +88,7 @@ class AssistInstallTests(unittest.TestCase):
         prepare.assert_called_once()
         commands = [call.args[0] for call in run.call_args_list]
         self.assertEqual(commands[0][:4], ["sudo", "pacman", "-S", "--needed"])
-        self.assertIn("python-textual", commands[0])
+        self.assertIn("python-textual>=8.2.8", commands[0])
         self.assertEqual(commands[1], ["makepkg", "--syncdeps", "--install", "--noconfirm"])
 
     def test_tools_only_source_plan_skips_shared_and_bootstrap(self):

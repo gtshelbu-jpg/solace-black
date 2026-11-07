@@ -1,6 +1,6 @@
 {
   "repository": "https://github.com/gtshelbu-jpg/solace-assist.git",
-  "commit": "c8f6dba971854f74d4f3d9783759babeb688db62",
-  "version": "0.1.0a3",
-  "source_sha256": "822ddd2b8075c3d0692f9d61f6fa1d4034432ccfc30f3cfd836c24bf4db3469c"
+  "commit": "e96e565c20e537cba2b15a52a4b9a5fb3769e683",
+  "version": "0.1.0a4",
+  "source_sha256": "e118cedf0b62882b7c77315c490dc410e436c51e7af9a1cdfda049c910b3f6f0"
 }
