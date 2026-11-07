@@ -42,6 +42,12 @@ package list and retains the shared archinstall path. Normal Solace composition
 retains its original package selection, including its separately prepared signed
 Calamares requirement. No shared profile is edited in place.
 
+## Optional appearance
+
+For the optional coordinated charcoal/violet appearance, see the
+[Solace Black theme](docs/THEME.md). Selecting it keeps the familiar desktop
+layout and shortcuts; normal Solace remains available in the theme selector.
+
 ## Signing and repository contexts
 
 1. **Build:** dedicated keyring already trusting Arch and BlackArch; strict package

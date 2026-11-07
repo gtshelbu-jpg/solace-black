@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+  <defs>
+    <radialGradient id="night" cx="76%" cy="30%" r="90%">
+      <stop offset="0" stop-color="#242035"/>
+      <stop offset="0.48" stop-color="#14131e"/>
+      <stop offset="1" stop-color="#08080d"/>
+    </radialGradient>
+    <linearGradient id="ridge" x2="0" y2="1">
+      <stop stop-color="#393044" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#101017" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="3840" height="2160" fill="url(#night)"/>
+  <path d="M0 1550 480 1320 880 1460 1510 1050 1960 1270 2570 700 3010 980 3400 820 3840 1110V2160H0Z" fill="url(#ridge)"/>
+  <g fill="none" stroke="#b4a1e8" stroke-width="2">
+    <path opacity="0.25" d="M-100 1750 480 1440 880 1570 1510 1160 1960 1380 2570 810 3010 1090 3400 930 3940 1240"/>
+    <path opacity="0.19" d="M-100 1830 480 1520 880 1650 1510 1240 1960 1460 2570 890 3010 1170 3400 1010 3940 1320"/>
+    <path opacity="0.14" d="M-100 1910 480 1600 880 1730 1510 1320 1960 1540 2570 970 3010 1250 3400 1090 3940 1400"/>
+    <path opacity="0.10" d="M-100 1990 480 1680 880 1810 1510 1400 1960 1620 2570 1050 3010 1330 3400 1170 3940 1480"/>
+    <path opacity="0.07" d="M-100 2070 480 1760 880 1890 1510 1480 1960 1700 2570 1130 3010 1410 3400 1250 3940 1560"/>
+    <path opacity="0.05" d="M-100 2150 480 1840 880 1970 1510 1560 1960 1780 2570 1210 3010 1490 3400 1330 3940 1640"/>
+  </g>
+  <g fill="#c5bddb" font-family="sans-serif" letter-spacing="14">
+    <text x="260" y="340" font-size="50">SOLACE</text>
+    <text x="264" y="410" font-size="23" fill="#8e80b1" letter-spacing="18">BLACK</text>
+  </g>
+  <path d="M266 465h140" stroke="#b4a1e8" stroke-width="2" opacity="0.55"/>
+</svg>
