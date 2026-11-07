@@ -162,6 +162,21 @@ class FoundationTests(unittest.TestCase):
         checksum = (ROOT / "bootstrap/strap.sha256").read_text().strip()
         self.assertRegex(checksum, r"^[a-f0-9]{64}$")
 
+    def test_larger_tool_groups_are_explicit_and_tools_only_skips_base(self):
+        env = {**os.environ, "HOME": str(self.root / "unused-home")}
+        default = subprocess.run(["bash", str(ROOT / "install.sh"), "--dry-run"],
+                                 env=env, capture_output=True, text=True, check=True)
+        selected = subprocess.run(["bash", str(ROOT / "install.sh"), "--dry-run", "--tools-only",
+                                   "--with", "wireless", "--with", "network", "--with", "frameworks"],
+                                  env=env, capture_output=True, text=True, check=True)
+        for name in ("kismet", "wireshark-qt", "wifite", "airgeddon", "metasploit", "routersploit", "bettercap"):
+            self.assertIn(name, selected.stderr)
+            self.assertNotIn(name, default.stderr)
+        self.assertNotIn("blackarch-repo.sh", selected.stderr)
+        self.assertNotIn("/opt/solace/install.sh", selected.stderr)
+        self.assertNotIn("systemctl", selected.stderr)
+        self.assertFalse((self.root / "unused-home").exists())
+
     @unittest.skipIf(os.geteuid() == 0, "Desktop apply intentionally refuses root")
     def test_failed_repository_setup_stops_before_base_package_installation(self):
         marker = self.root / "base-ran"

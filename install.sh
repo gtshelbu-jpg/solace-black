@@ -14,7 +14,8 @@ usage() {
   cat <<'EOF'
 Usage: bash install.sh [--dry-run|--apply] [options]
   --base-path PATH       Embedded/pinned Solace source (default /opt/solace)
-  --with core|web|wireless|assist  Optional native groups (core selected initially)
+  --with core|web|wireless|network|frameworks|assist
+                         Optional native groups (core selected initially)
   --desktop-only         Register Black desktop additions; no base/packages/repos
   --tools-only           Install selected Black tools; do not rerun shared setup
   --assist-source-build  Select Assist and explicitly build its locked native source
@@ -41,7 +42,7 @@ while (( $# )); do
       case "$1" in
         --base-path) BASE="$2";;
         --theme) case "$2" in keep|black) THEME="$2";; *) exit 1;; esac;;
-        --with) case "$2" in core|web|wireless|assist) GROUPS_SELECTED+=("$2");; *) echo 'Unknown tool group' >&2; exit 1;; esac;;
+        --with) case "$2" in core|web|wireless|network|frameworks|assist) GROUPS_SELECTED+=("$2");; *) echo 'Unknown tool group' >&2; exit 1;; esac;;
         --lid-policy) case "$2" in docked|suspend|awake|keep) BASE_ARGS+=(--lid-policy "$2");; *) exit 1;; esac;;
       esac
       shift 2;;

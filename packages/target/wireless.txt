@@ -1,3 +1,7 @@
 aircrack-ng
 iw
 wireless-regdb
+kismet
+wifite
+# BlackArch repository; Arch packages above retain normal repository precedence.
+airgeddon

@@ -1,0 +1,3 @@
+# Optional frameworks; installation does not initialize databases or run modules.
+metasploit
+routersploit

@@ -2,7 +2,7 @@
   "schema": 1,
   "solace": {
     "repository": "https://github.com/gtshelbu-jpg/Solace.git",
-    "commit": "7d6ec2c16ddd25b6c36bd949e6fb7a526a8725c9",
+    "commit": "9ebc282c20eb2c946a8996664edbe2f582d9aa9d",
     "interface": 1
   }
 }

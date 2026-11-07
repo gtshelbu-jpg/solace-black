@@ -54,6 +54,19 @@ explicit options. DisplayLink requires matching kernel headers, a successful
 EVDI DKMS build and its service; the bar indicator reports readiness, not proof
 that an attached dock/display works. No saved network credentials are included.
 
+Additional native tools remain optional:
+
+- `--with wireless`: Aircrack-ng, Kismet, Wifite and Airgeddon.
+- `--with network`: Wireshark GUI and Bettercap.
+- `--with frameworks`: Metasploit and RouterSploit (Arch's command is `rsf`).
+
+On an existing Black installation, combine these with `--tools-only` to avoid
+rerunning shared desktop setup; review `--dry-run` before using `--apply`.
+Installation does not start capture services, configure Metasploit databases or
+grant capture-group membership. Kismet uses its `kismet` capture-helper group;
+Wireshark can inspect saved captures without live-capture privileges. Optional
+tool features may require further dependencies and compatible wireless hardware.
+
 ## Solace Assist: offline tool explorer
 
 If selected at install, open **Solace Assist** from **Super + Space**, or run
@@ -74,6 +87,9 @@ opens a typed form with option explanations, explicit arguments and a preview.
 Press **Ctrl+R** in the explorer (or run `sbtools sync`) to import existing local
 Pacman caches and installed metadata. It does not download anything or refresh
 package databases. Installed status is a snapshot, not a live guarantee.
+For newly installed tools without a bundled guide, uncheck **Reviewed guides**
+and enable **Installed**. These entries show real local package metadata and
+documentation links, not fabricated command recipes.
 **Enter** focuses results/opens details, **Tab** moves focus, **F** toggles a
 favorite when results are focused, **Esc** returns and **Ctrl+Q** quits.
 Browsing and selection never execute the described security tools.

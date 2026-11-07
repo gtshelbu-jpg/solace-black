@@ -122,6 +122,36 @@ bash install.sh --dry-run --tools-only --assist-source-build
 bash install.sh --dry-run --desktop-only
 ```
 
+### Optional security-tool groups
+
+The default core stays small. Select larger groups explicitly:
+
+| Group | Tools |
+| --- | --- |
+| `wireless` | Aircrack-ng, Kismet, Wifite, Airgeddon, wireless utilities |
+| `network` | Wireshark GUI (and CLI dependency), Bettercap |
+| `frameworks` | Metasploit, RouterSploit |
+
+For an existing Black installation with repository trust already configured:
+
+```bash
+bash install.sh --dry-run --tools-only --with wireless --with network --with frameworks
+# Review the plan, then repeat with --apply instead of --dry-run.
+```
+
+This does not rerun shared desktop setup, initialize Metasploit databases, enable
+capture services or add users to privileged capture groups. Kismet's native
+package supplies capture-helper capabilities restricted to its `kismet` group;
+membership is a separate explicit choice. Wireless functionality also depends on
+adapter/driver support. Framework modules and optional Airgeddon/Wifite features
+can need additional dependencies; installed does not mean every workflow is ready.
+
+Run `sbtools sync` after package changes to refresh local discovery. In the TUI,
+uncheck **Reviewed guides** and select **Installed** to include tools known only
+from local package metadata. Missing reviewed guides are labeled honestly; no
+commands are invented from package descriptions. Normal signature policy and
+Arch-before-BlackArch repository precedence remain unchanged.
+
 The shared installer handles lid selection, keyring/PAM preservation, and user
 preferences. Black defaults to preserving the current theme. `--theme black` is an
 explicit opt-in: materialize the optional palette using shared theme assets, then
