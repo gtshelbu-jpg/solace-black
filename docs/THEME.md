@@ -35,6 +35,10 @@ theme explicitly before rebuilding its generated assets.
 - Shared terminal palettes (Alacritty, Foot, Kitty and Ghostty); Starship and tmux
   follow their ANSI colours without replacing shell configuration or keybindings.
 - Waybar colours and active-workspace accents, retaining the user's bar layout.
+- btop's generated `current` palette and Impala's application theme. Solace-launched
+  Bluetui receives a terminal-local ANSI accent override; its upstream version
+  does not expose a native theme configuration API. Warning/error colours remain
+  distinct, and the palette override is restored when that dedicated TUI exits.
 - Walker, Mako, swayosd, GTK CSS and shared editor/tool palette outputs.
 - Hyprland active borders, lock-screen colours and a dedicated original wallpaper.
 

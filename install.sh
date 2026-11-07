@@ -18,6 +18,7 @@ Usage: bash install.sh [--dry-run|--apply] [options]
   --lid-policy POLICY   Pass the chosen policy to the shared Solace installer
   --no-tablet           Pass through the shared installer's tablet choice
   --bash-prompt         Enable Starship in existing Bash config, with backup
+  --bash-defaults       Integrate shared Bash defaults, preserving personal overrides
 
 Without --apply, a real install requires an interactive confirmation. --dry-run
 never invokes sudo, downloads a bootstrap or changes desktop configuration.
@@ -40,6 +41,7 @@ while (( $# )); do
       shift 2;;
     --no-tablet) BASE_ARGS+=(--no-tablet); shift;;
     --bash-prompt) BASE_ARGS+=(--bash-prompt); shift;;
+    --bash-defaults) BASE_ARGS+=(--bash-defaults); shift;;
     -h|--help) usage; exit 0;;
     *) echo "Unknown option: $1" >&2; exit 1;;
   esac

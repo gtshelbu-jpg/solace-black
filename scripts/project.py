@@ -84,7 +84,7 @@ def package_lines(path):
 
 def own_input_digest():
     result = hashlib.sha256()
-    for name in ["upstream.lock.json", "install.sh", "scripts", "bootstrap", "packages", "overlays", "profiles"]:
+    for name in ["upstream.lock.json", "install.sh", "scripts", "bootstrap", "packages", "overlays", "profiles", "docs/learn"]:
         root = ROOT / name
         paths = [root] if root.is_file() else sorted(root.rglob("*"))
         for path in paths:

@@ -36,6 +36,15 @@ def install(home, theme="keep", apply=False):
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(data)
     ledger[key] = digest(data)
+    guide = home / ".local/share/solace/learn/solace-black.md"
+    guide_key = ".local/share/solace/learn/solace-black.md"
+    guide_data = (ROOT / "docs/learn/solace-black.md").read_bytes()
+    if guide.is_symlink() or (guide.exists() and digest(guide.read_bytes()) != ledger.get(guide_key)):
+        print("Preserving locally customized Black Learn guide.", file=sys.stderr)
+    else:
+        guide.parent.mkdir(parents=True, exist_ok=True)
+        guide.write_bytes(guide_data)
+        ledger[guide_key] = digest(guide_data)
     state.parent.mkdir(parents=True, exist_ok=True)
     state.write_text(json.dumps(ledger, indent=2) + "\n")
     if theme == "keep": return

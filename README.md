@@ -47,6 +47,9 @@ Calamares requirement. No shared profile is edited in place.
 For the optional coordinated charcoal/violet appearance, see the
 [Solace Black theme](docs/THEME.md). Selecting it keeps the familiar desktop
 layout and shortcuts; normal Solace remains available in the theme selector.
+The shared first-login/Learn guide gains a **Solace Black** topic explaining the
+current toolkit, theme and optional groups without advertising unfinished shell
+or Assist integration. Locally edited guide pages are preserved on reinstall.
 
 ## Signing and repository contexts
 

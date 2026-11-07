@@ -122,6 +122,11 @@ class FoundationTests(unittest.TestCase):
         include.write_text("# Reserved for an explicitly installed derivative. Empty in standard Solace.\n")
         desktop.install(home, apply=True)
         desktop.install(home, apply=True)
+        guide = home / ".local/share/solace/learn/solace-black.md"
+        self.assertIn("Super + Alt + Enter", guide.read_text())
+        guide.write_text("# My personal Black notes\n")
+        desktop.install(home, apply=True)
+        self.assertEqual(guide.read_text(), "# My personal Black notes\n")
         self.assertNotIn("bind", "\n".join(l for l in include.read_text().splitlines() if not l.startswith("#")))
         self.assertEqual(main.read_bytes(), original)
         include.write_text("# my customization\n")
