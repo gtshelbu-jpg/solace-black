@@ -4,8 +4,10 @@ An independently maintained overlay on a pinned Solace desktop, not a full fork.
 Solace owns the shared desktop/installer/Archiso engine. Black owns repository
 integration, optional native tool selections, a small desktop include and optional
 palette, and explicit security/hardware deployment policy. Assist is a separate
-offline CLI/TUI MVP, not a boot dependency. Its shell and Elephant adapter remain
-later milestones; no unfinished launcher or assisted-shell shortcut is enabled.
+offline CLI/TUI with an opt-in real-shell helper prototype, not a boot dependency.
+Bash has explicit-key Readline assistance; other shells remain read-only. An
+Elephant provider and complete cross-shell editing support remain later work;
+no normal launcher, terminal or tmux shortcut is replaced.
 
 ## Source lock and build requirements
 
@@ -147,8 +149,19 @@ or install an independent Elephant catalog.
 `sbtools templates` lists the initial reviewed, typed command previews. For
 example, `sbtools preview readelf-header --arg 'file=a sample.elf' --shell bash`
 prints a reviewable command without running, copying, inserting or submitting it.
-Unknown-shell/generic mode returns structured arguments. PTY transport foundations
-are tested separately; no public assisted-shell interface is enabled yet.
+Unknown-shell/generic mode returns structured arguments. The TUI defaults to
+reviewed guides and provides **Start a task (Ctrl+T)** and a typed **Build command
+(Ctrl+P)** form rather than requiring manual CLI template arguments.
+
+The optional **Solace Assist Helper (Prototype)** application entry, or
+`sbtools shell`, opens a real shell beside that helper on an isolated tmux server.
+In Bash, Ctrl+G explicitly requests command context; staged previews can be
+inserted only by Ctrl+X then Ctrl+I at an empty Readline prompt, without Enter.
+Execution remains the user's separate decision. Existing startup files, login
+shell selection and normal desktop bindings are unchanged. Zsh/Fish/sh/unknown
+shells are read-only fallbacks, not falsely supported editing modes. Exit or
+terminal close/detach ends this disposable helper and its jobs. See Assist's
+interactive-helper documentation before using it for real work.
 
 `--with assist` still expects a package in an explicitly trusted repository.
 `--assist-source-build` is a separate opt-in for installations without that binary

@@ -18,8 +18,8 @@ and personal configuration outside the repositories.
 | Native Lua desktop | Shared reversible modular staging helper, live palette bridges, toggle-state mapping and isolated compositor verification; legacy configuration remains in the installer | Real modular-session testing, runtime helpers and regular installer promotion |
 | Solace Assist | Offline CLI/TUI catalog; exact source lock/checksum, explicit native build/install path and standard application-menu entry | Clean-install validation and production signed binary distribution |
 | Security launcher | Optional Walker task-search adapter uses shared catalog ranking and opens documentation only; native menu entry | Real graphical selection/cancel validation; normal launcher bindings remain unchanged |
-| Command previews | Initial typed, reviewed templates; supported-shell renderers and structured-only generic fallback | Expand curated coverage; validate additional shell versions without treating previews as execution |
-| Assisted shell | Internal real-PTY transport with resize, Ctrl+C, cleanup and explicit-Enter tests; no public shell UI | Editable-buffer adapters, terminal UI and complete cross-shell/fallback validation; never auto-submit generated commands |
+| Command previews | Typed forms, option explanations, reviewed starting tasks, shell renderers and structured-only generic fallback | Expand curated coverage and validate additional real-world workflows |
+| Interactive helper | Opt-in tmux PTY shell + helper UI; native Bash explicit-context/empty-buffer insertion; private IPC and no-auto-Enter tests | Hands-on validation and full Zsh/Fish editing adapters; other shells remain honestly read-only |
 
 Do not install a shortcut that points to an unimplemented interface. The normal
 terminal and tmux bindings must remain usable independently of Black or Assist.

@@ -66,6 +66,11 @@ sbtools show nmap
 sbtools installed
 ```
 
+The explorer now starts with **Reviewed guides**, not an alphabetical dump of
+package metadata. Uncheck that filter when you want the full imported catalog.
+**Start a task / Ctrl+T** offers guided starting points. **Build command / Ctrl+P**
+opens a typed form with option explanations, explicit arguments and a preview.
+
 Press **Ctrl+R** in the explorer (or run `sbtools sync`) to import existing local
 Pacman caches and installed metadata. It does not download anything or refresh
 package databases. Installed status is a snapshot, not a live guarantee.
@@ -103,12 +108,36 @@ trusted native package (`--with assist`) or an explicit pinned local source buil
 runs native tests and respects normal Pacman local-package trust; it does not
 silently relax signatures. An unselected Assist installation is not implied.
 
-## Still not enabled
+## Try the interactive helper prototype
 
-There is no enabled assisted shell, automatic generated-command execution or
-replacement launcher shortcut. A real PTY transport is tested internally, but
-shell-buffer editing adapters and an integrated shell UI remain unfinished.
-The normal tmux binding is intentional.
+Open **Solace Assist Helper (Prototype)** from the application launcher, or run
+`sbtools shell` in a normal terminal. The left pane is a real shell on a private
+tmux PTY; the right pane is the offline helper. Your ordinary terminal and tmux
+bindings do not change.
+
+A safe first try:
+
+1. In the Bash pane, type `readelf` without Enter, then **Ctrl+G** for its guide.
+2. **Ctrl+B, Right** switches to the helper. Use **Ctrl+P** to build a command,
+   choose the ELF-header template, and enter `/usr/bin/ls` as the file to inspect.
+3. **Generate preview**, then optionally **Stage for shell**. Nothing runs or
+   inserts yet.
+4. **Ctrl+B, Left** returns to the shell. Clear the old input yourself. At an
+   **empty prompt**, **Ctrl+X then Ctrl+I** inserts the reviewed Bash preview.
+5. Review/edit the line and press Enter yourself only if you want to execute it.
+   This example reads an ELF header; it does not execute the inspected program.
+6. `exit` or Ctrl+D closes the disposable helper and its jobs.
+
+Only an explicit key shares a conservative executable hint; no terminal-output
+scraping or raw command/credential history is stored by the helper. Bash insertion
+uses native Readline, refuses nonempty buffers and never appends Enter. Other
+shells keep their original executable and get read-only guidance, not a silent
+switch or an invented editing adapter. This is an opt-in prototype, not finished
+cross-shell assistance or an AI command agent. Terminal close/detach ends its
+private session; do not use it for irreplaceable long-running jobs.
+
+There is still no automatic generated-command execution or replacement launcher
+shortcut. Your normal tmux binding is intentional.
 
 ## Troubleshooting the appearance
 
