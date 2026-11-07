@@ -99,8 +99,8 @@ sbtools preview readelf-header --arg 'file=a sample.elf' --shell bash
 Nothing is run, inserted, copied or submitted. Without a supported shell choice,
 the default preview is structured arguments rather than guessed quoting. Read the
 corresponding tool guide and check the installed version before manually using
-any command. Network-probe previews additionally require explicit authorization
-and a single IP/explicit port list; they do not broaden scope automatically.
+any command. Network-probe previews take a single IP/explicit port list, without
+an acknowledgment checkbox or flag; they do not broaden scope automatically.
 
 Assist remains independently usable and optional. The Black installer can use a
 trusted native package (`--with assist`) or an explicit pinned local source build
@@ -120,8 +120,9 @@ A safe first try:
 1. In the Bash pane, type `readelf` without Enter, then **Ctrl+G** for its guide.
 2. **Ctrl+B, Right** switches to the helper. Use **Ctrl+P** to build a command,
    choose the ELF-header template, and enter `/usr/bin/ls` as the file to inspect.
-3. **Generate preview**, then optionally **Stage for shell**. Nothing runs or
-   inserts yet.
+3. The first argument is focused. **Enter** previews; **Ctrl+Enter** stages
+   directly from the current fields. Buttons remain available. Nothing inserts
+   or runs yet, and there is no extra acknowledgment step.
 4. **Ctrl+B, Left** returns to the shell. Clear the old input yourself. At an
    **empty prompt**, **Ctrl+X then Ctrl+I** inserts the reviewed Bash preview.
 5. Review/edit the line and press Enter yourself only if you want to execute it.
