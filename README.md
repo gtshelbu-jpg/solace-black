@@ -110,8 +110,12 @@ bash install.sh --dry-run --base-path /opt/solace
 bash install.sh --apply --lid-policy docked --no-tablet
 # Optional additional packages:
 bash install.sh --apply --with web --with wireless --lid-policy awake --no-tablet
-# Only after a signed native Assist package is available in a trusted repository:
+# Select a signed native Assist package from a trusted repository:
 bash install.sh --dry-run --with assist --lid-policy docked --no-tablet
+# Or explicitly build the exact locked Assist source as a native local package:
+bash install.sh --dry-run --assist-source-build --lid-policy docked --no-tablet
+# Add selected tools to an existing Black desktop without rerunning shared setup:
+bash install.sh --dry-run --tools-only --assist-source-build
 # Add only desktop files to a prepared, compatible desktop:
 bash install.sh --dry-run --desktop-only
 ```
@@ -120,9 +124,36 @@ The shared installer handles lid selection, keyring/PAM preservation, and user
 preferences. Black defaults to preserving the current theme. `--theme black` is an
 explicit opt-in: materialize the optional palette using shared theme assets, then
 select it through Solace. Black supplies its own original static SVG wallpaper;
-the branding stays inside the centre-fill crop area for landscape displays from
-4:3 through 32:9. Existing user themes and wallpaper selections are preserved by
+the artwork has no text or branding. Existing user themes and wallpaper selections are preserved by
 default; registering a theme is separate from selecting it.
+
+### Offline tool explorer
+
+An installed Assist package provides **Solace Assist** in the normal application
+launcher (**Super + Space**) and the `sbtools` command. It browses tool purposes,
+categories, eight source-reviewed guides and personal notes/favorites. Search by
+task, for example `sbtools search enumerate smb`. Run `sbtools sync` (or Ctrl+R in
+the explorer) to explicitly read local Pacman caches and installed-file metadata;
+this does not download data or refresh Pacman's databases. Browsing never runs a
+security tool. There is no assisted shell or generated-command execution yet.
+
+`--with assist` still expects a package in an explicitly trusted repository.
+`--assist-source-build` is a separate opt-in for installations without that binary
+distribution: fetch the commit in `assist.lock.json`, verify the deterministic
+source archive SHA256, install signed build/TUI dependencies, then run unprivileged
+`makepkg` with tests and normal Pacman installation. No global pip or signature
+override is used. This local source-build mode requires the normal Arch
+`Optional TrustedOnly` local-file policy and refuses stricter or untrusted policy;
+it never changes trust. It is not a production signed binary repository.
+
+To install only the catalog on an already prepared desktop, preview with
+`python3 scripts/install-assist.py`, then explicitly apply with `--apply`.
+`--source /path/to/solace-assist` can use a clean checkout at the exact pin; modified
+or mismatched source fails closed. Build sources/artifacts are retained under
+`~/.local/state/solace-black/assist-builds/`. Network access is required for initial
+source/dependency acquisition; the installed explorer remains offline-capable.
+`--tools-only` uses existing repository configuration and skips both shared setup
+and repository bootstrapping; it is for an already configured Black installation.
 
 Black tracks its owned include's hash. If edited locally, it is preserved and the
 installer requests manual review. Missing shared derivative/user include support

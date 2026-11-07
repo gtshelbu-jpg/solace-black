@@ -20,11 +20,4 @@
     <path opacity="0.07" d="M-100 2070 480 1760 880 1890 1510 1480 1960 1700 2570 1130 3010 1410 3400 1250 3940 1560"/>
     <path opacity="0.05" d="M-100 2150 480 1840 880 1970 1510 1560 1960 1780 2570 1210 3010 1490 3400 1330 3940 1640"/>
   </g>
-  <!-- Keep branding inside the centre-fill safe area for 4:3 through 32:9.
-       Edge decoration may crop; the words and underline must remain visible. -->
-  <g id="branding" fill="#c5bddb" font-family="sans-serif" letter-spacing="14">
-    <text x="800" y="650" font-size="50">SOLACE</text>
-    <text x="804" y="720" font-size="23" fill="#8e80b1" letter-spacing="18">BLACK</text>
-    <path d="M806 775h140" fill="none" stroke="#b4a1e8" stroke-width="2" opacity="0.55"/>
-  </g>
 </svg>

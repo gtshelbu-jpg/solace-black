@@ -1,3 +1,4 @@
-# Optional, only after a signed native Assist package/repository is available.
+# Optional repository-package path; requires an explicitly trusted native source.
+# --assist-source-build instead builds the locked Assist source locally.
 solace-assist
 python-textual

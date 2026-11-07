@@ -54,10 +54,33 @@ explicit options. DisplayLink requires matching kernel headers, a successful
 EVDI DKMS build and its service; the bar indicator reports readiness, not proof
 that an attached dock/display works. No saved network credentials are included.
 
-## Not enabled by this release
+## Solace Assist: offline tool explorer
 
-Solace Assist is a separate offline project. Its optional package needs an
-explicit trusted distribution source; it is not guaranteed installed here.
+If selected at install, open **Solace Assist** from **Super + Space**, or run
+`sbtools` in a terminal. It searches tools by purpose, shows categories and
+source-reviewed guides, and keeps notes, tags and favorites locally. Examples:
+
+```bash
+sbtools search enumerate smb
+sbtools show nmap
+sbtools installed
+```
+
+Press **Ctrl+R** in the explorer (or run `sbtools sync`) to import existing local
+Pacman caches and installed metadata. It does not download anything or refresh
+package databases. Installed status is a snapshot, not a live guarantee.
+**Enter** focuses results/opens details, **Tab** moves focus, **F** toggles a
+favorite when results are focused, **Esc** returns and **Ctrl+Q** quits.
+Browsing and selection never execute the described security tools.
+
+Assist remains independently usable and optional. The Black installer can use a
+trusted native package (`--with assist`) or an explicit pinned local source build
+(`--assist-source-build`). The latter verifies the locked commit/source checksum,
+runs native tests and respects normal Pacman local-package trust; it does not
+silently relax signatures. An unselected Assist installation is not implied.
+
+## Still not enabled
+
 There is no enabled assisted shell, automatic generated-command execution or
 replacement launcher shortcut. The normal tmux binding is intentional.
 

@@ -41,31 +41,11 @@ class ThemeTests(unittest.TestCase):
         self.assertFalse(dest.exists())
         run.assert_not_called()
 
-    def test_wallpaper_branding_survives_landscape_fill_crops(self):
+    def test_wallpaper_has_no_text_or_branding(self):
         svg = ET.parse(ROOT / "overlays/desktop/wallpaper.svg").getroot()
-        width, height = map(float, (svg.attrib["width"], svg.attrib["height"]))
         ns = {"svg": "http://www.w3.org/2000/svg"}
-        branding = svg.find("svg:g[@id='branding']", ns)
-        self.assertIsNotNone(branding)
-        for ratio in (4/3, 3/2, 16/10, 16/9, 21/9, 32/9):
-            visible_width = min(width, height * ratio)
-            visible_height = min(height, width / ratio)
-            left, top = (width - visible_width) / 2, (height - visible_height) / 2
-            with self.subTest(ratio=ratio):
-                for text in branding.findall("svg:text", ns):
-                    x, y, size = (float(text.attrib[key]) for key in ("x", "y", "font-size"))
-                    spacing = float(text.get("letter-spacing", branding.get("letter-spacing", "0")))
-                    # Conservative bounds: one em per glyph plus tracking,
-                    # with ascent/descent padding, independent of host fonts.
-                    right = x + len(text.text) * (size + spacing)
-                    self.assertGreaterEqual(x, left + 40)
-                    self.assertLessEqual(right, left + visible_width - 40)
-                    self.assertGreaterEqual(y - 1.3 * size, top + 40)
-                    self.assertLessEqual(y + 0.3 * size, top + visible_height - 40)
-                self.assertGreaterEqual(806, left + 40)
-                self.assertLessEqual(946, left + visible_width - 40)
-                self.assertGreaterEqual(774, top + 40)
-                self.assertLessEqual(776, top + visible_height - 40)
+        self.assertEqual(svg.findall(".//svg:text", ns), [])
+        self.assertIsNone(svg.find("svg:g[@id='branding']", ns))
 
     def test_register_renders_palette_and_original_wallpaper_without_selecting(self):
         old = (self.base / "colors.toml").read_bytes()
