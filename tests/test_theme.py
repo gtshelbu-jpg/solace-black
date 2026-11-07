@@ -80,3 +80,11 @@ class ThemeTests(unittest.TestCase):
         self.assertEqual(palette["bg"], palette["background"])
         self.assertNotEqual(palette["lighter_bg"], palette["background"])
         self.assertNotEqual(palette["dark_bg"], palette["background"])
+
+    def test_impala_uses_shared_selection_generator(self):
+        templates = self.home / ".local/share/solace/default/themed"
+        (templates / "impala-selection.py").write_text('def selection_color(palette):\n    return "#655681"\n')
+        (templates / "impala.toml.tpl").write_text('[theme]\nbackground = "{{ impala_selection_background }}"\n')
+        with patch.object(theme.subprocess, "run", side_effect=self.fake_magick):
+            dest = theme.register(self.home, apply=True)
+        self.assertIn('background = "#655681"', (dest / "impala.toml").read_text())

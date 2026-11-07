@@ -39,6 +39,9 @@ theme explicitly before rebuilding its generated assets.
   Bluetui receives a terminal-local ANSI accent override; its upstream version
   does not expose a native theme configuration API. Warning/error colours remain
   distinct, and the palette override is restored when that dedicated TUI exits.
+  Impala's `background` field means selected-row/input fill, not screen background.
+  The shared generator derives an accent-tinted fill with readable text and visible
+  row separation, rather than mapping it directly to the desktop background.
 - Walker, Mako, swayosd, GTK CSS and shared editor/tool palette outputs.
 - Hyprland active borders, lock-screen colours and a dedicated original wallpaper.
 

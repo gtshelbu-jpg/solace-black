@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import runpy
 from pathlib import Path
 import re
 import shutil
@@ -54,6 +55,9 @@ def register(home, apply=False):
     if not (templates / "hyprland.lua.tpl").is_file():
         raise ValueError("Update shared Solace templates for Lua palette support first")
     palette = palette_for(base)
+    if (templates / "impala.toml.tpl").is_file():
+        helper = runpy.run_path(str(templates / "impala-selection.py"))
+        palette["impala_selection_background"] = helper["selection_color"](palette)
     dest.parent.mkdir(parents=True, exist_ok=True)
     # Render in a fresh sibling; partial output is never offered as a theme.
     with tempfile.TemporaryDirectory(prefix=".solace-black-", dir=dest.parent) as temp:
