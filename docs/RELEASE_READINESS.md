@@ -15,10 +15,11 @@ and personal configuration outside the repositories.
 | Black Learn page | Managed page, shared topic discovery, customization-preservation test | Open through both first-login and menu paths |
 | DisplayLink | Optional package group, matching-header selection and service lifecycle | Actual dock hotplug, output, unplug/replug and reboot testing; software readiness is not hardware proof |
 | Core native tools | Explicit native package group and repository setup | Safe CLI smoke checks, availability and signature checks on the installed target |
-| Native Lua desktop | Palette templates exist; legacy configuration remains in the shared installer | Complete modular configuration, runtime toggles/helpers, migration preservation and compositor-level validation |
+| Native Lua desktop | Shared reversible modular staging helper, live palette bridges, toggle-state mapping and isolated compositor verification; legacy configuration remains in the installer | Real modular-session testing, runtime helpers and regular installer promotion |
 | Solace Assist | Offline CLI/TUI catalog; exact source lock/checksum, explicit native build/install path and standard application-menu entry | Clean-install validation and production signed binary distribution |
-| Security launcher | Standard application launcher can open the installed explorer | Dedicated task-search adapter remains separate; preserve normal launcher bindings |
-| Assisted shell | Not implemented | Real PTY, editable command buffer, cross-shell/fallback tests; never auto-submit generated commands |
+| Security launcher | Optional Walker task-search adapter uses shared catalog ranking and opens documentation only; native menu entry | Real graphical selection/cancel validation; normal launcher bindings remain unchanged |
+| Command previews | Initial typed, reviewed templates; supported-shell renderers and structured-only generic fallback | Expand curated coverage; validate additional shell versions without treating previews as execution |
+| Assisted shell | Internal real-PTY transport with resize, Ctrl+C, cleanup and explicit-Enter tests; no public shell UI | Editable-buffer adapters, terminal UI and complete cross-shell/fallback validation; never auto-submit generated commands |
 
 Do not install a shortcut that points to an unimplemented interface. The normal
 terminal and tmux bindings must remain usable independently of Black or Assist.

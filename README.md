@@ -138,6 +138,17 @@ this does not download data or refresh Pacman's databases. Browsing never runs a
 security tool. There is no assisted shell or generated-command execution yet.
 The explorer follows Solace's active palette and updates when the system theme
 changes, without requiring a separate Assist theme setting.
+The optional **Solace Assist Search** application entry uses Walker to ask for a
+task, then presents shared-catalog ranked results. Selection opens a tool's
+documentation in the explorer, never its executable. `sbtools launch enumerate
+smb` skips the first prompt. It does not change normal launcher/terminal bindings
+or install an independent Elephant catalog.
+
+`sbtools templates` lists the initial reviewed, typed command previews. For
+example, `sbtools preview readelf-header --arg 'file=a sample.elf' --shell bash`
+prints a reviewable command without running, copying, inserting or submitting it.
+Unknown-shell/generic mode returns structured arguments. PTY transport foundations
+are tested separately; no public assisted-shell interface is enabled yet.
 
 `--with assist` still expects a package in an explicitly trusted repository.
 `--assist-source-build` is a separate opt-in for installations without that binary

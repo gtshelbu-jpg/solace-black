@@ -75,6 +75,28 @@ Browsing and selection never execute the described security tools.
 The explorer follows the active Solace palette, including changes while it is
 open. After upgrading an older Assist version, reopen it once to load this support.
 
+### Search from the desktop
+
+Open **Solace Assist Search** in the normal application launcher, or run
+`sbtools launch`. Describe a task, choose a result, and its guide opens in the
+terminal explorer. `sbtools launch enumerate smb` starts with that task directly.
+This optional adapter needs Walker and the normal terminal launcher. Selecting a
+result never starts the security tool, and cancelling does nothing.
+
+### Preview a reviewed command
+
+`sbtools templates` lists available typed previews. For example:
+
+```bash
+sbtools preview readelf-header --arg 'file=a sample.elf' --shell bash
+```
+
+Nothing is run, inserted, copied or submitted. Without a supported shell choice,
+the default preview is structured arguments rather than guessed quoting. Read the
+corresponding tool guide and check the installed version before manually using
+any command. Network-probe previews additionally require explicit authorization
+and a single IP/explicit port list; they do not broaden scope automatically.
+
 Assist remains independently usable and optional. The Black installer can use a
 trusted native package (`--with assist`) or an explicit pinned local source build
 (`--assist-source-build`). The latter verifies the locked commit/source checksum,
@@ -84,7 +106,9 @@ silently relax signatures. An unselected Assist installation is not implied.
 ## Still not enabled
 
 There is no enabled assisted shell, automatic generated-command execution or
-replacement launcher shortcut. The normal tmux binding is intentional.
+replacement launcher shortcut. A real PTY transport is tested internally, but
+shell-buffer editing adapters and an integrated shell UI remain unfinished.
+The normal tmux binding is intentional.
 
 ## Troubleshooting the appearance
 
