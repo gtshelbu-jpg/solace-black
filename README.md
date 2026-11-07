@@ -50,6 +50,8 @@ layout and shortcuts; normal Solace remains available in the theme selector.
 The shared first-login/Learn guide gains a **Solace Black** topic explaining the
 current toolkit, theme and optional groups without advertising unfinished shell
 or Assist integration. Locally edited guide pages are preserved on reinstall.
+See [installed-desktop readiness](docs/RELEASE_READINESS.md) for the distinction
+between tested staging fixes and a reproducible, install-ready release.
 
 ## Signing and repository contexts
 
@@ -117,8 +119,10 @@ bash install.sh --dry-run --desktop-only
 The shared installer handles lid selection, keyring/PAM preservation, and user
 preferences. Black defaults to preserving the current theme. `--theme black` is an
 explicit opt-in: materialize the optional palette using shared theme assets, then
-select it through Solace. It is experimental until visually tested on a disposable
-desktop; no new wallpaper assets are duplicated in this repository.
+select it through Solace. Black supplies its own original static SVG wallpaper;
+the branding stays inside the centre-fill crop area for landscape displays from
+4:3 through 32:9. Existing user themes and wallpaper selections are preserved by
+default; registering a theme is separate from selecting it.
 
 Black tracks its owned include's hash. If edited locally, it is preserved and the
 installer requests manual review. Missing shared derivative/user include support
