@@ -9,6 +9,8 @@ ASSIST_SOURCE_BUILD=0
 TOOLS_ONLY=0
 THEME=keep
 GROUPS_SELECTED=(core)
+GROUP_SELECTION_EXPLICIT=0
+SHARED_GROUP_SELECTED=0
 BASE_ARGS=()
 usage() {
   cat <<'EOF'
@@ -16,6 +18,8 @@ Usage: bash install.sh [--dry-run|--apply] [options]
   --base-path PATH       Embedded/pinned Solace source (default /opt/solace)
   --with core|web|wireless|network|frameworks|assist
                          Optional native groups (core selected initially)
+  --with apps|development|displaylink|sdr|gaming
+                         Optional shared Solace groups (forwarded to base setup)
   --desktop-only         Register Black desktop additions; no base/packages/repos
   --tools-only           Install selected Black tools; do not rerun shared setup
   --assist-source-build  Select Assist and explicitly build its locked native source
@@ -36,13 +40,17 @@ while (( $# )); do
     --apply) APPLY=1; shift;;
     --desktop-only) DESKTOP_ONLY=1; shift;;
     --tools-only) TOOLS_ONLY=1; shift;;
-    --assist-source-build) ASSIST_SOURCE_BUILD=1; GROUPS_SELECTED+=(assist); shift;;
+    --assist-source-build) ASSIST_SOURCE_BUILD=1; GROUP_SELECTION_EXPLICIT=1; GROUPS_SELECTED+=(assist); shift;;
     --base-path|--theme|--with|--lid-policy)
       (( $# >= 2 )) || { echo "$1 needs a value" >&2; exit 1; }
       case "$1" in
         --base-path) BASE="$2";;
         --theme) case "$2" in keep|black) THEME="$2";; *) exit 1;; esac;;
-        --with) case "$2" in core|web|wireless|network|frameworks|assist) GROUPS_SELECTED+=("$2");; *) echo 'Unknown tool group' >&2; exit 1;; esac;;
+        --with) GROUP_SELECTION_EXPLICIT=1; case "$2" in
+          core|web|wireless|network|frameworks|assist) GROUPS_SELECTED+=("$2");;
+          apps|development|displaylink|sdr|gaming) BASE_ARGS+=(--with "$2"); SHARED_GROUP_SELECTED=1;;
+          *) echo 'Unknown tool group' >&2; exit 1;;
+        esac;;
         --lid-policy) case "$2" in docked|suspend|awake|keep) BASE_ARGS+=(--lid-policy "$2");; *) exit 1;; esac;;
       esac
       shift 2;;
@@ -57,6 +65,10 @@ if (( DESKTOP_ONLY && (TOOLS_ONLY || ASSIST_SOURCE_BUILD) )); then
   echo '--desktop-only cannot be combined with tool installation flags' >&2
   exit 1
 fi
+if (( SHARED_GROUP_SELECTED && (DESKTOP_ONLY || TOOLS_ONLY) )); then
+  echo 'Shared package groups need the full shared setup; do not combine them with desktop-only/tools-only.' >&2
+  exit 1
+fi
 if (( ! DRY )); then
   (( EUID != 0 )) || { echo 'Run as the target desktop user, not root.' >&2; exit 1; }
   if (( ! APPLY )); then
@@ -66,6 +78,34 @@ if (( ! DRY )); then
     [[ $confirmation == INSTALL ]] || exit 1
   fi
   [[ -f "$BASE/archiso/interface.json" ]] || { echo 'Solace derivative interface 1 is required; review/publish/pin the upstream changes first.' >&2; exit 1; }
+fi
+if (( ! DRY && ! DESKTOP_ONLY && ! TOOLS_ONLY && ! GROUP_SELECTION_EXPLICIT )) &&
+   [[ -t 0 && ! -e $HOME/.local/share/solace ]]; then
+  echo 'Optional Black groups: web wireless network frameworks assist'
+  echo 'assist selects its checksum-verified pinned native source build, not an unsigned binary download.'
+  read -r -p 'Choose groups separated by spaces (Enter = core only): ' optional_groups
+  read -r -a choices <<<"$optional_groups"
+  for choice in "${choices[@]}"; do
+    case "$choice" in
+      web|wireless|network|frameworks) GROUPS_SELECTED+=("$choice");;
+      assist) GROUPS_SELECTED+=(assist); ASSIST_SOURCE_BUILD=1;;
+      *) echo "Unknown group: $choice" >&2; exit 1;;
+    esac
+  done
+  echo 'Optional shared groups: apps development displaylink sdr gaming'
+  echo 'DisplayLink with Secure Boot requires separate kernel-module signing/lockdown validation.'
+  read -r -p 'Choose shared groups (Enter = none): ' shared_groups
+  read -r -a choices <<<"$shared_groups"
+  for choice in "${choices[@]}"; do
+    case "$choice" in
+      apps|development|displaylink|sdr|gaming) BASE_ARGS+=(--with "$choice");;
+      *) echo "Unknown shared group: $choice" >&2; exit 1;;
+    esac
+  done
+  if [[ $THEME == "keep" ]]; then
+    read -r -p 'Select Black appearance after shared setup? [y/N] ' choice
+    case "$choice" in y|Y|yes|YES) THEME=black;; esac
+  fi
 fi
 step() {
   printf 'Plan:' >&2

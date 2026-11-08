@@ -16,23 +16,27 @@ def digest(data):
 
 
 def install(home, theme="keep", apply=False):
-    target = home / ".config/hypr/derivative.conf"
+    native = (home / ".config/hypr/hyprland.lua").is_file()
+    extension = "lua" if native else "conf"
+    target = home / (".config/hypr/derivative." + extension)
     state = home / ".local/state/solace-black/managed-files.json"
-    main = home / ".config/hypr/hyprland.conf"
+    main = home / (".config/hypr/hyprland." + extension)
     if not apply:
         print("Preview: install the Black include only if unchanged; preserve user overrides and current theme.")
         if theme == "black": print("Preview: register/select the optional inherited Black theme.")
         return
-    if not main.is_file() or "source = ~/.config/hypr/derivative.conf" not in main.read_text():
+    contract = ('dofile(os.getenv("HOME") .. "/.config/hypr/derivative.lua")' if native
+                else "source = ~/.config/hypr/derivative.conf")
+    if not main.is_file() or contract not in main.read_text():
         raise ValueError("The shared derivative/user include contract is missing. Review the upstream install; do not replace user Hyprland configuration automatically.")
     ledger = json.loads(state.read_text()) if state.exists() else {}
-    key = ".config/hypr/derivative.conf"
-    placeholder = b"# Reserved for an explicitly installed derivative. Empty in standard Solace.\n"
+    key = ".config/hypr/derivative." + extension
+    placeholder = ("--" if native else "#").encode() + b" Reserved for an explicitly installed derivative. Empty in standard Solace.\n"
     if target.is_symlink():
         raise ValueError("Preserving a user-supplied derivative symlink; review integration manually")
     if target.exists() and target.read_bytes() != placeholder and digest(target.read_bytes()) != ledger.get(key):
         raise ValueError("Black include was locally customized; preserving it for manual review")
-    data = (ROOT / "overlays/desktop/derivative.conf").read_bytes()
+    data = (ROOT / ("overlays/desktop/derivative." + extension)).read_bytes()
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(data)
     ledger[key] = digest(data)

@@ -138,6 +138,23 @@ class FoundationTests(unittest.TestCase):
         desktop.install(home)
         self.assertFalse(home.exists())
 
+    def test_native_derivative_include_preserves_customizations(self):
+        home = self.root / "native-home"
+        config = home / ".config/hypr"
+        config.mkdir(parents=True)
+        main = config / "hyprland.lua"
+        main.write_text('dofile(os.getenv("HOME") .. "/.config/hypr/derivative.lua")\n')
+        placeholder = "-- Reserved for an explicitly installed derivative. Empty in standard Solace.\n"
+        include = config / "derivative.lua"
+        include.write_text(placeholder)
+        desktop.install(home, apply=True)
+        self.assertIn("managed native include", include.read_text())
+        self.assertFalse((config / "derivative.conf").exists())
+        include.write_text("-- personal override\n")
+        with self.assertRaises(ValueError):
+            desktop.install(home, apply=True)
+        self.assertEqual(include.read_text(), "-- personal override\n")
+
     def test_install_dry_run_never_executes_privileged_or_network_commands(self):
         home = self.root / "home"
         home.mkdir()
@@ -176,6 +193,13 @@ class FoundationTests(unittest.TestCase):
         self.assertNotIn("/opt/solace/install.sh", selected.stderr)
         self.assertNotIn("systemctl", selected.stderr)
         self.assertFalse((self.root / "unused-home").exists())
+
+    def test_shared_group_forwarding_and_tools_only_rejection(self):
+        command = ["bash", str(ROOT / "install.sh"), "--dry-run", "--with", "displaylink"]
+        selected = subprocess.run(command, capture_output=True, text=True, check=True)
+        self.assertIn("--with displaylink", selected.stderr)
+        rejected = subprocess.run([*command, "--tools-only"], capture_output=True, text=True)
+        self.assertNotEqual(rejected.returncode, 0)
 
     @unittest.skipIf(os.geteuid() == 0, "Desktop apply intentionally refuses root")
     def test_failed_repository_setup_stops_before_base_package_installation(self):

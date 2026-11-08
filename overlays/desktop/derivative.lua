@@ -1,0 +1,2 @@
+-- Solace Black's managed native include. Final overrides belong in hypr/user.lua.
+-- Helper/launcher applications are opt-in; normal terminal/tmux bindings remain unchanged.

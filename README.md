@@ -1,5 +1,8 @@
 # Solace Black
 
+For a fresh installation, start with [the install sequence](docs/INSTALL.md),
+including the required pre-reboot keyboard/LUKS and separate Secure Boot steps.
+
 An independently maintained overlay on a pinned Solace desktop, not a full fork.
 Solace owns the shared desktop/installer/Archiso engine. Black owns repository
 integration, optional native tool selections, a small desktop include and optional
